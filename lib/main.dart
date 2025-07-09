@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:ngsfer_wishlist/data/services/memory_client.dart';
 import 'package:ngsfer_wishlist/ui/home/view_model/home_view_model.dart';
 import 'package:ngsfer_wishlist/ui/home/widgets/home_screen.dart';
+import 'package:ngsfer_wishlist/data/repositories/memory_item_repository.dart';
+import 'package:ngsfer_wishlist/data/repositories/item_repository.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider(create: (_) => MemoryClient()),
+        Provider(
+          create: (context) =>
+              MemoryItemRepository(memoryClient: context.read())
+                  as ItemRepository,
+        ),
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => HomeScreen(viewModel: HomeViewModel()),
+      builder: (context, state) =>
+          HomeScreen(viewModel: HomeViewModel(itemRepository: context.read())),
     ),
   ],
 );
