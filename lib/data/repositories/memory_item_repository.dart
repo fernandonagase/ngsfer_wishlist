@@ -1,5 +1,6 @@
 import 'package:ngsfer_wishlist/data/repositories/item_repository.dart';
 import 'package:ngsfer_wishlist/data/services/memory_client.dart';
+import 'package:ngsfer_wishlist/domain/models/item.dart';
 import 'package:result_dart/result_dart.dart';
 
 class MemoryItemRepository implements ItemRepository {
@@ -9,7 +10,21 @@ class MemoryItemRepository implements ItemRepository {
   final MemoryClient _memoryClient;
 
   @override
-  Future<Result<List<String>>> getItems() {
-    return _memoryClient.getItems();
+  Future<Result<List<Item>>> getItems() async {
+    final apiItemsResult = await _memoryClient.getItems();
+    return apiItemsResult.fold(
+      (success) => Success(
+        success
+            .map(
+              (apiItem) => Item(
+                name: apiItem.name,
+                notes: apiItem.notes,
+                price: apiItem.price,
+              ),
+            )
+            .toList(),
+      ),
+      (failure) => Failure(failure),
+    );
   }
 }
