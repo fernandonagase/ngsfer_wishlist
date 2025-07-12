@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ngsfer_wishlist/data/repositories/sqflite_item_repository.dart';
+import 'package:ngsfer_wishlist/data/services/sqflite_client.dart';
 import 'package:provider/provider.dart';
-import 'package:ngsfer_wishlist/data/services/memory_client.dart';
 import 'package:ngsfer_wishlist/ui/home/view_model/home_view_model.dart';
 import 'package:ngsfer_wishlist/ui/home/widgets/home_screen.dart';
-import 'package:ngsfer_wishlist/data/repositories/memory_item_repository.dart';
 import 'package:ngsfer_wishlist/data/repositories/item_repository.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider(create: (_) => MemoryClient()),
+        Provider(create: (_) => SqfliteClient()),
         Provider(
           create: (context) =>
-              MemoryItemRepository(memoryClient: context.read())
+              SqfliteItemRepository(sqfliteClient: context.read())
                   as ItemRepository,
         ),
       ],
