@@ -17,6 +17,7 @@ class MemoryItemRepository implements ItemRepository {
         success
             .map(
               (apiItem) => Item(
+                id: apiItem.id,
                 name: apiItem.name,
                 notes: apiItem.notes,
                 price: apiItem.price,
