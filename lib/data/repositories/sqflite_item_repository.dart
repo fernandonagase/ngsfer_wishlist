@@ -43,4 +43,14 @@ class SqfliteItemRepository implements ItemRepository {
       (failure) => Failure(failure),
     );
   }
+
+  @override
+  Future<Result<Unit>> deleteItem(Item item) async {
+    if (item.id == null) throw ArgumentError('item.id não pode ser nulo.');
+    final deleteItemResult = await _sqfliteClient.deleteItem(item.id!);
+    return deleteItemResult.fold(
+      (success) => Success(unit),
+      (failure) => Failure(failure),
+    );
+  }
 }

@@ -18,7 +18,15 @@ class HomeScreen extends StatelessWidget {
         builder: (context, _) {
           return switch (viewModel.loadCommand.value) {
             RunningCommand() => Center(child: CircularProgressIndicator()),
-            SuccessCommand() => ItemsList(items: viewModel.items),
+            SuccessCommand() => ListenableBuilder(
+              listenable: viewModel,
+              builder: (context, _) => ItemsList(
+                items: viewModel.items,
+                onDelete: (item) {
+                  viewModel.deleteItemCommand.execute(item);
+                },
+              ),
+            ),
             FailureCommand(:final error) => Text('Failure: $error'),
             _ => Center(
               child: Text(viewModel.loadCommand.value.runtimeType.toString()),

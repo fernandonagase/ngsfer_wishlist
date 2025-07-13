@@ -8,6 +8,7 @@ class HomeViewModel extends ChangeNotifier {
   HomeViewModel({required ItemRepository itemRepository})
     : _itemRepository = itemRepository {
     loadCommand = Command0(_load)..execute();
+    deleteItemCommand = Command1(_deleteItem);
   }
 
   final ItemRepository _itemRepository;
@@ -15,6 +16,7 @@ class HomeViewModel extends ChangeNotifier {
   final test = 'Hello World! ViewModel';
 
   late Command0 loadCommand;
+  late Command1<Unit, Item> deleteItemCommand;
 
   List<Item> get items => _items;
 
@@ -30,6 +32,18 @@ class HomeViewModel extends ChangeNotifier {
           return Failure(failure);
         },
       );
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<Result<Unit>> _deleteItem(Item item) async {
+    try {
+      final deleteResult = await _itemRepository.deleteItem(item);
+      return deleteResult.fold((success) {
+        _items.remove(item);
+        return Success(unit);
+      }, (failure) => Failure(failure));
     } finally {
       notifyListeners();
     }

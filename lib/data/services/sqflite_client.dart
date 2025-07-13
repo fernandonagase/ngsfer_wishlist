@@ -64,4 +64,17 @@ class SqfliteClient {
       return Failure(e);
     }
   }
+
+  Future<Result<Unit>> deleteItem(int id) async {
+    try {
+      await (await _getDbConnection()).delete(
+        'item',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+      return Success(unit);
+    } on Exception catch (e) {
+      return Failure(e);
+    }
+  }
 }
