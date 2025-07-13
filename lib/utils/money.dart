@@ -4,6 +4,8 @@ class Money {
   int cents;
 
   Money({required this.cents});
+  Money.fromString(String value)
+    : cents = (double.parse(value.replaceAll(',', '.')) * 100).round();
 
   @override
   String toString() {

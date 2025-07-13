@@ -4,6 +4,14 @@ import 'package:ngsfer_wishlist/utils/money.dart';
 
 void main() {
   Intl.defaultLocale = 'pt_BR';
+
+  test('Instancia Money a partir de String', () {
+    expect(Money.fromString('199,99').cents, 19999);
+    expect(Money.fromString('0,00').cents, 0);
+    expect(Money.fromString('-15,50').cents, -1550);
+    expect(() => Money.fromString('-15,50a'), throwsFormatException);
+  });
+
   test('Formata valor para exibição', () {
     expect(Money(cents: 199).toString(), '1,99');
     expect(Money(cents: 0).toString(), '0,00');
