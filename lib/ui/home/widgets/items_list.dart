@@ -13,7 +13,7 @@ class ItemsList extends StatelessWidget {
         for (final item in items)
           ListTile(
             title: Text(item.name),
-            subtitle: Text(item.price.toString()),
+            subtitle: item.price != null ? Text('R\$ ${item.price}') : null,
           ),
       ],
     );
