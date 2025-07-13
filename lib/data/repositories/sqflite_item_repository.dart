@@ -1,3 +1,4 @@
+import 'package:ngsfer_wishlist/data/dtos/item_dto.dart';
 import 'package:ngsfer_wishlist/data/repositories/item_repository.dart';
 import 'package:ngsfer_wishlist/data/services/sqflite_client.dart';
 import 'package:ngsfer_wishlist/domain/models/item.dart';
@@ -28,6 +29,17 @@ class SqfliteItemRepository implements ItemRepository {
             )
             .toList(),
       ),
+      (failure) => Failure(failure),
+    );
+  }
+
+  @override
+  Future<Result<Unit>> addItem(Item item) async {
+    final addItemResult = await _sqfliteClient.addItem(
+      ItemDto(name: item.name, notes: item.notes, price: item.price?.cents),
+    );
+    return addItemResult.fold(
+      (success) => Success(unit),
       (failure) => Failure(failure),
     );
   }

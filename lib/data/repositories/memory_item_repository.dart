@@ -28,4 +28,10 @@ class MemoryItemRepository implements ItemRepository {
       (failure) => Failure(failure),
     );
   }
+
+  @override
+  Future<Result<Unit>> addItem(Item item) {
+    // TODO: implement addItem
+    throw UnimplementedError();
+  }
 }
