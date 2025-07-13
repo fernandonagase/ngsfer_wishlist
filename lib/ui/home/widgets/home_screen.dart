@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ngsfer_wishlist/ui/home/view_model/home_view_model.dart';
 import 'package:ngsfer_wishlist/ui/home/widgets/items_list.dart';
 import 'package:result_command/result_command.dart';
@@ -23,6 +24,12 @@ class HomeScreen extends StatelessWidget {
             ),
           };
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.goNamed('novo-item');
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
