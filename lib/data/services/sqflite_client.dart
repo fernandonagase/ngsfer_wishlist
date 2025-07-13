@@ -55,4 +55,13 @@ class SqfliteClient {
       return Failure(e);
     }
   }
+
+  Future<Result<Unit>> addItem(ItemDto itemDto) async {
+    try {
+      await (await _getDbConnection()).insert('item', itemDto.toMap());
+      return Success(unit);
+    } on Exception catch (e) {
+      return Failure(e);
+    }
+  }
 }
