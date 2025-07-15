@@ -65,76 +65,80 @@ class _NewItemScreenState extends State<NewItemScreen> {
                   ? const LinearProgressIndicator(key: ValueKey('progress'))
                   : const SizedBox(key: ValueKey('empty'), height: 4),
             ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 12.0,
-                    children: [
-                      Row(
+            Expanded(
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
                         spacing: 12.0,
                         children: [
-                          Expanded(
-                            flex: 4,
-                            child: TextFormField(
-                              controller: _descricaoController,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Descrição*',
-                                helperText: '',
+                          Row(
+                            spacing: 12.0,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: TextFormField(
+                                  controller: _descricaoController,
+                                  textInputAction: TextInputAction.next,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Descrição*',
+                                    helperText: '',
+                                  ),
+                                  autofocus: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Campo obrigatório.';
+                                    }
+                                    return null;
+                                  },
+                                  readOnly: widget
+                                      .viewModel
+                                      .addItemCommand
+                                      .value
+                                      .isRunning,
+                                ),
                               ),
-                              autofocus: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Campo obrigatório.';
-                                }
-                                return null;
-                              },
-                              readOnly: widget
-                                  .viewModel
-                                  .addItemCommand
-                                  .value
-                                  .isRunning,
-                            ),
+                              Expanded(
+                                flex: 2,
+                                child: TextFormField(
+                                  controller: _precoController,
+                                  textInputAction: TextInputAction.next,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Preço',
+                                    prefixText: 'R\$ ',
+                                    helperText: '',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  readOnly: widget
+                                      .viewModel
+                                      .addItemCommand
+                                      .value
+                                      .isRunning,
+                                ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: TextFormField(
-                              controller: _precoController,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Preço',
-                                prefixText: 'R\$ ',
-                                helperText: '',
-                              ),
-                              keyboardType: TextInputType.number,
-                              readOnly: widget
-                                  .viewModel
-                                  .addItemCommand
-                                  .value
-                                  .isRunning,
+                          TextFormField(
+                            controller: _observacoesController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Observações',
+                              alignLabelWithHint: true,
                             ),
+                            keyboardType: TextInputType.multiline,
+                            minLines: 3,
+                            maxLines: null,
+                            readOnly:
+                                widget.viewModel.addItemCommand.value.isRunning,
                           ),
                         ],
                       ),
-                      TextFormField(
-                        controller: _observacoesController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Observações',
-                          alignLabelWithHint: true,
-                        ),
-                        keyboardType: TextInputType.multiline,
-                        minLines: 3,
-                        maxLines: null,
-                        readOnly:
-                            widget.viewModel.addItemCommand.value.isRunning,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
