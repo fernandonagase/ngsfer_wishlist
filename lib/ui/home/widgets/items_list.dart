@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ngsfer_wishlist/domain/models/item.dart';
 
 class ItemsList extends StatelessWidget {
@@ -46,6 +47,12 @@ class ItemsList extends StatelessWidget {
               onPressed: () => _doDeleteItem(item, context),
               icon: const Icon(Icons.delete),
             ),
+            onTap: () {
+              context.goNamed(
+                'item-detalhes',
+                pathParameters: {'id': '${item.id}'},
+              );
+            },
           ),
       ],
     );
