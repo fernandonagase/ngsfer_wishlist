@@ -53,4 +53,20 @@ class SqfliteItemRepository implements ItemRepository {
       (failure) => Failure(failure),
     );
   }
+
+  @override
+  Future<Result<Item>> getItemById(int id) async {
+    final result = await _sqfliteClient.getItemById(id);
+    return result.fold(
+      (itemDto) => Success(
+        Item(
+          id: itemDto.id,
+          name: itemDto.name,
+          notes: itemDto.notes,
+          price: itemDto.price != null ? Money(cents: itemDto.price!) : null,
+        ),
+      ),
+      (failure) => Failure(failure),
+    );
+  }
 }

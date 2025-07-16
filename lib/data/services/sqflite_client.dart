@@ -77,4 +77,21 @@ class SqfliteClient {
       return Failure(e);
     }
   }
+
+  Future<Result<ItemDto>> getItemById(int id) async {
+    try {
+      final itemMap = await (await _getDbConnection()).query(
+        'item',
+        columns: ['id', 'name', 'notes', 'price'],
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+      if (itemMap.isEmpty) {
+        return Failure(Exception('Item não encontrado'));
+      }
+      return Success(ItemDto.fromMap(itemMap.first));
+    } on Exception catch (e) {
+      return Failure(e);
+    }
+  }
 }

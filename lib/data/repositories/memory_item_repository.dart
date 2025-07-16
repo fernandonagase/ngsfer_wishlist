@@ -40,4 +40,10 @@ class MemoryItemRepository implements ItemRepository {
     // TODO: implement deleteItem
     throw UnimplementedError();
   }
+
+  @override
+  Future<Result<Item>> getItemById(int id) {
+    // TODO: implement getItemById
+    throw UnimplementedError();
+  }
 }
