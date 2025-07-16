@@ -39,6 +39,16 @@ final _router = GoRouter(
             viewModel: NewItemViewModel(itemRepository: context.read()),
           ),
         ),
+        GoRoute(
+          name: 'item-detalhes',
+          path: '/item/:id',
+          builder: (context, state) => NewItemScreen(
+            viewModel: NewItemViewModel(
+              itemRepository: context.read(),
+              itemId: int.tryParse(state.pathParameters['id'] ?? ''),
+            ),
+          ),
+        ),
       ],
     ),
   ],
