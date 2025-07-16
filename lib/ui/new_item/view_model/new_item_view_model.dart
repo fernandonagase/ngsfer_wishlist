@@ -8,12 +8,16 @@ import 'package:result_dart/result_dart.dart';
 typedef FormItem = ({String name, String? notes, String? price});
 
 class NewItemViewModel extends ChangeNotifier {
-  NewItemViewModel({required ItemRepository itemRepository})
-    : _itemRepository = itemRepository {
+  NewItemViewModel({required ItemRepository itemRepository, int? itemId})
+    : _itemRepository = itemRepository,
+      _itemId = itemId {
     addItemCommand = Command1(_addItem);
   }
 
   final ItemRepository _itemRepository;
+  final int? _itemId;
+
+  int? get itemId => _itemId;
 
   late Command1<void, FormItem> addItemCommand;
 
